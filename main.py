@@ -1,5 +1,8 @@
 import sqlite3
 import os.path
+import colorama
+from colorama import Fore
+import pyjokes
 
 from Commands.Weather import weather
 
@@ -37,18 +40,28 @@ print(f"\n\nHi, {user}\n\n")
 
 def task_weather():
     weatherValues = weather(location)
-    return f"\nIn {location}, you will experience {weatherValues[1]} and the temperature is {round(weatherValues[0],1)}°C. \nI hope you have a lovely day!"
+    return f"In {location}, you will experience {weatherValues[1]} and the temperature is {round(weatherValues[0],1)}°C. \nI hope you have a lovely day!"
+
+def task_joke():
+    return pyjokes.get_joke(language="en", category="all")
 
 # MAIN LOOP
 while True:
-    task = input("\nWhat would you like to do today? \n--> ")
+    task = input("\nWhat would you like to do today? \n--> " + Fore.CYAN).lower()
+    words = task.split()
+    print(Fore.WHITE + "\n- - -\n")
 
-    if task == "weather":
+    if "weather" in words:
         print(task_weather())
+    if "joke" in words or "funny" in words:
+        print(task_joke())
 
+    if task == "exit":
+        break
+    if words==[]:
+        print("Oh well, I'm here if you want me!")
 
+    print(Fore.WHITE + "\n- - -\n")
 
-
-
-
+print(Fore.WHITE)
 conn.commit()
